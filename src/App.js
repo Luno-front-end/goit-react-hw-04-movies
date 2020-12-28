@@ -42,7 +42,7 @@ export default function Movies() {
           <MoviesViews />
         </Route>
         <Route path="/movies/:moviesId">
-          <MovieDetailsPage page={page} listId={listNameMovies} />
+          <MovieDetailsPage />
         </Route>
 
         {/* <button type="button" onClick={incrementPage}>

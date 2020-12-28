@@ -5,10 +5,10 @@ export default function Navigation() {
   return (
     <nav>
       <NavLink exact to="/" activeClassName="activeLink">
-        Головна
+        Главная
       </NavLink>
       <NavLink to="/movies" activeClassName="activeLink">
-        Фільми
+        Фильмы
       </NavLink>
     </nav>
   );
