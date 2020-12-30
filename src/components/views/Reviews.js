@@ -15,17 +15,15 @@ export default function Reviews() {
       .catch((error) => setError(error));
   }, [moviesId]);
 
-  return (
+  return reviews && reviews.results.length > 0 ? (
     <ul>
-      {reviews &&
-        reviews.results.map(({ author, id, content }) => (
-          <li key={id}>
-            <p>Автор: {author}</p> <p>{content}</p>
-          </li>
-        ))}
+      {reviews.results.map(({ author, id, content }) => (
+        <li key={id}>
+          <p>Автор: {author}</p> <p>{content}</p>
+        </li>
+      ))}
     </ul>
+  ) : (
+    <p>Сдесь, обзоры отсутствуют</p>
   );
 }
-// {
-//   cast.title;
-// }

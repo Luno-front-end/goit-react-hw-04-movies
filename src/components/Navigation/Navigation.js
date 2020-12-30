@@ -4,12 +4,27 @@ import "../../styles/styles.css";
 export default function Navigation() {
   return (
     <nav>
-      <NavLink exact to="/" activeClassName="activeLink">
-        Главная
-      </NavLink>
-      <NavLink to="/movies" activeClassName="activeLink">
-        Фильмы
-      </NavLink>
+      <ul className="navigation">
+        <li>
+          <NavLink
+            exact
+            to="/"
+            className="linkNav"
+            activeClassName="activeLink"
+          >
+            Главная
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to="/movies"
+            className="linkNav"
+            activeClassName="activeLink"
+          >
+            Фильмы
+          </NavLink>
+        </li>
+      </ul>
     </nav>
   );
 }

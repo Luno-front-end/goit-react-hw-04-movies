@@ -1,5 +1,6 @@
 import { useState } from "react";
-// import { useParams } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { useRouteMatch } from "react-router-dom";
 
 import Api from "../../services/FetchAPI";
 
@@ -9,6 +10,11 @@ export default function MoviesViews() {
   const [moviesSearch, setMoviesSearch] = useState(null);
   // eslint-disable-next-line no-unused-vars
   const [error, setError] = useState("");
+
+  // const useParamss = useParams();
+  // console.log(useParamss);
+  const { url } = useRouteMatch();
+  // console.log(useRouteMatc);
 
   // useEffect(() => {}, [page, valueSearch]);
 
@@ -37,6 +43,7 @@ export default function MoviesViews() {
   const nextPage = () => {
     myFetch();
   };
+  // console.log(moviesSearch && moviesSearch.results.filter(({ id }) => id));
 
   return (
     <div>
@@ -58,11 +65,13 @@ export default function MoviesViews() {
           <ul>
             {moviesSearch.results.map(({ original_title, id }) => (
               <li key={id}>
-                <p>{original_title}</p>
+                {moviesSearch && (
+                  <NavLink to={`${url}/${id}`}>{original_title}</NavLink>
+                )}
               </li>
             ))}
           </ul>
-          <button onClick={nextPage}>NextPage</button>
+          <button onClick={nextPage}>Следующая страница</button>
         </div>
       )}
     </div>
