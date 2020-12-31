@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { useRouteMatch } from "react-router-dom";
 
 import Api from "../../services/FetchAPI";
@@ -14,6 +14,7 @@ export default function MoviesViews() {
   // const useParamss = useParams();
   // console.log(useParamss);
   const { url } = useRouteMatch();
+  const location = useLocation();
   // console.log(useRouteMatc);
 
   // useEffect(() => {}, [page, valueSearch]);
@@ -66,7 +67,14 @@ export default function MoviesViews() {
             {moviesSearch.results.map(({ original_title, id }) => (
               <li key={id}>
                 {moviesSearch && (
-                  <NavLink to={`${url}/${id}`}>{original_title}</NavLink>
+                  <NavLink
+                    to={{
+                      pathname: `${url}/${id}`,
+                      state: { from: location },
+                    }}
+                  >
+                    {original_title}
+                  </NavLink>
                 )}
               </li>
             ))}

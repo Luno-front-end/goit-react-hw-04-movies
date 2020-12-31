@@ -1,2 +1,0 @@
-(this["webpackJsonpgoit-react-hw-04-movies"]=this["webpackJsonpgoit-react-hw-04-movies"]||[]).push([[1],{34:function(t,e,i){"use strict";i.r(e),i.d(e,"default",(function(){return s}));var c=i(2),n=(i(0),i(35)),r=i.n(n);function s(){return Object(c.jsx)("div",{className:"loader",children:Object(c.jsx)(r.a,{type:"BallTriangle",color:"#00BFFF",height:200,width:200})})}}}]);
-//# sourceMappingURL=1.68d4a9fc.chunk.js.map

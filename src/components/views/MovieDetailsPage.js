@@ -1,4 +1,10 @@
-import { useParams, Link, Route } from "react-router-dom";
+import {
+  useParams,
+  Link,
+  Route,
+  useHistory,
+  useLocation,
+} from "react-router-dom";
 import { useState, useEffect, lazy, Suspense } from "react";
 
 import Api from "../../services/FetchAPI";
@@ -17,6 +23,10 @@ export default function MovieCard() {
   const [error, setError] = useState(null);
   const [loader, setLoader] = useState(false);
 
+  const history = useHistory();
+  const location = useLocation();
+  // console.log("detalFILM:", location);
+
   useEffect(() => {
     setLoader(true);
     Api.fetchApiOneMovie(moviesId)
@@ -24,45 +34,63 @@ export default function MovieCard() {
       .catch((error) => setError(error))
       .finally(() => setLoader(false));
   }, [moviesId]);
-  // console.log(movie.title);
   const calckRating = (a) => {
     return Math.round((a * 100) / 10);
   };
+
+  const goBackPage = () => {
+    history.push(location?.state?.from ?? "/");
+  };
   return (
-    <div>
+    <div className="constainerDetalFilm">
       {loader && <Loader />}
-
       <img
-        src={movie && `https://image.tmdb.org/t/p/w200${movie.poster_path}`}
+        src={movie && `https://image.tmdb.org/t/p/w300${movie.poster_path}`}
         alt=""
+        width="300"
+        height="400"
+        className="imagesTitle"
       ></img>
+      <div>
+        <button type="button" onClick={goBackPage} className="goBackBtn">
+          Назад
+        </button>
 
-      <h1>{movie && movie.title}</h1>
-      <p>Средняя оценка: {movie && calckRating(movie.vote_average)}%</p>
-      <div>
-        <h2>Описание</h2>
-        <p>{movie && movie.overview}</p>
-      </div>
-      <div>
-        <h3>Жанр</h3>
-        <ul>
-          {movie &&
-            movie.genres.map(({ id, name }) => <li key={id}>{name} </li>)}
-        </ul>
-      </div>
-      <div>
-        <hr />
-        <Link to={`/movies/${moviesId}/cast`}>Актеры</Link> <br />
-        <Link to={`/movies/${moviesId}/reviews`}>Обзоры (Eng)</Link>
-        <hr />
-        <Suspense fallback={<Loader />}>
-          <Route path="/movies/:moviesId/cast">
-            {movie && <Cast casts={movie} />}
-          </Route>
-          <Route path="/movies/:moviesId/reviews">
-            <Reviews />
-          </Route>
-        </Suspense>
+        <h1 className="nameSactionDetalFilm">{movie && movie.title}</h1>
+        <p>Средняя оценка: {movie && calckRating(movie.vote_average)}%</p>
+
+        <div>
+          <h3>Жанр</h3>
+          <ul className="ul-genres">
+            {movie &&
+              movie.genres.map(({ id, name }) => <li key={id}>{name} </li>)}
+          </ul>
+        </div>
+
+        <div>
+          <h2>Описание</h2>
+          <p>{movie && movie.overview}</p>
+        </div>
+
+        <div>
+          <hr />
+          <Link className="linkDetalFilm" to={`/movies/${moviesId}/cast`}>
+            Актеры
+          </Link>{" "}
+          <br />
+          <Link className="linkDetalFilm" to={`/movies/${moviesId}/reviews`}>
+            Обзоры (Eng)
+          </Link>
+          <hr />
+          <Suspense fallback={<Loader />}>
+            <Route path="/movies/:moviesId/cast">
+              {movie && <Cast casts={movie} />}
+            </Route>
+            <Route path="/movies/:moviesId/reviews">
+              <Reviews />
+            </Route>
+          </Suspense>
+        </div>
       </div>
     </div>
   );

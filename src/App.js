@@ -1,10 +1,12 @@
 import { useState, useEffect, lazy, Suspense } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, useLocation } from "react-router-dom";
 
+import Container from "./components/Container/Container";
 import Loader from "./components/loader/loader";
 import Api from "./services/FetchAPI";
 
-const Container = lazy(() => import("./components/Container/Container"));
+import "./styles/styles.css";
+
 const HeaderBar = lazy(() => import("./components/HeaderBar/HeaderBar"));
 const HomeViews = lazy(() => import("./components/views/HomeViews"));
 const MoviesViews = lazy(() => import("./components/views/MoviesViews"));
@@ -19,6 +21,9 @@ export default function Movies() {
   const [listNameMovies, setListNameMovies] = useState([]);
   const [error, setError] = useState("");
   const [loader, setLoader] = useState(false);
+
+  const location = useLocation();
+  console.log("HOME", location);
 
   useEffect(() => {
     fetchAPI();
@@ -39,30 +44,35 @@ export default function Movies() {
   };
 
   return (
-    <Suspense fallback={<Loader />}>
-      <Container>
+    <Container>
+      <Suspense fallback={<Loader />}>
         <HeaderBar />
         {loader && <Loader />}
         {error && <h1>{error.message}</h1>}
-        <Switch>
-          <Route exact path="/">
-            <HomeViews arrayMovies={listNameMovies} />
-            <button type="submite" onClick={nextPageTrends}>
-              Следующие тренды
-            </button>
-          </Route>
-          <Route exact path="/movies">
-            <MoviesViews />
-          </Route>
-          <Route path="/movies/:moviesId">
-            <MovieDetailsPage />
-          </Route>
+        <main className="infoBlock">
+          <section className="holder">
+            <Switch>
+              <Route exact path="/">
+                <HomeViews arrayMovies={listNameMovies} location={location} />
+                <button type="submite" onClick={nextPageTrends}>
+                  Следующие тренды
+                </button>
+              </Route>
 
-          <Route>
-            <NotFoundViews />
-          </Route>
-        </Switch>
-      </Container>
-    </Suspense>
+              <Route exact path="/movies">
+                <MoviesViews />
+              </Route>
+              <Route path="/movies/:moviesId">
+                <MovieDetailsPage />
+              </Route>
+
+              <Route>
+                <NotFoundViews />
+              </Route>
+            </Switch>
+          </section>
+        </main>
+      </Suspense>
+    </Container>
   );
 }
